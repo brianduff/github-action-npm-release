@@ -79,6 +79,7 @@ jobs:
 
 - `token`: Personal access token for GitHub authentication. Optional. Defaults to `${{ github.token }}`.
 - `path`: Path of the package.json file that will be examined. Optional. Defaults to `${{ github.workspace }}`.
+- `tag_prefix`: A prefix for the release tag. Optional. Defaults to an empty string.
 
 ## Outputs
 
