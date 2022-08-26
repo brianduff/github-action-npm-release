@@ -12,6 +12,10 @@ inputs:
     description: Personal access token. Defaults to GITHUB_TOKEN.
     default: ${{ github.token }}
     required: false
+  tag_prefix:
+    description: A prefix for the release tag. Defaults to empty string.
+    default: ''
+    required: false
 outputs:
   released:
     description: 'Set to true when a release is created.'

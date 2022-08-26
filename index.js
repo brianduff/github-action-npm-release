@@ -65,7 +65,7 @@ async function main() {
 
   // 3. If versions are different or if its the first release
   if (firstRelease || previousVersion !== newVersion) {
-    
+    const tagName = core.getInput('tag_prefix') + newVersion;
     // 1. Generate the change log
     let changeLog;
     try {
@@ -83,14 +83,14 @@ async function main() {
       const {data} = await octokit.repos.createRelease({
         owner, 
         repo, 
-        tag_name: newVersion, 
-        name: newVersion, 
+        tag_name: tagName,
+        name: tagName, 
         target_commitish: process.env.GITHUB_SHA,
         body: changeLog
       });
       // What output should we provide?
       // https://docs.github.com/en/rest/reference/repos#get-a-release
-      core.info(`Created release ${newVersion}`);
+      core.info(`Created release ${tagName}`);
       core.setOutput('released', true);
       core.setOutput('html_url', data.html_url);
       core.setOutput('upload_url', data.upload_url);
@@ -98,7 +98,7 @@ async function main() {
       core.setOutput('release_tag', data.tag_name);
       core.setOutput('release_name', data.name);
     } catch (error) {
-      core.setFailed(`Failed to create release ${newVersion} for ${owner}/${repo}#${process.env.GITHUB_SHA}`);
+      core.setFailed(`Failed to create release ${tagName} for ${owner}/${repo}#${process.env.GITHUB_SHA}`);
       core.error(error);
       core.setOutput('released', true);
       core.debug(JSON.stringify(error.headers));
